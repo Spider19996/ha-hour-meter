@@ -1,0 +1,36 @@
+start:
+  name: Start
+  description: Startet die Betriebsstundenzählung und speichert den aktuellen Zeitstempel.
+  fields:
+    device:
+      name: Gerät
+      description: Name oder ID des Geräts. Nur bei mehreren Geräten erforderlich.
+      example: Garten
+
+stop:
+  name: Stop
+  description: Stoppt die Betriebsstundenzählung, berechnet die Laufzeit und speichert den Eintrag in der CSV-Datei.
+  fields:
+    device:
+      name: Gerät
+      description: Name oder ID des Geräts. Nur bei mehreren Geräten erforderlich.
+      example: Garten
+
+manual:
+  name: Manual
+  description: Setzt die Betriebsstunden manuell auf einen bestimmten Wert.
+  fields:
+    value:
+      name: Value
+      description: Der neue Wert für die Betriebsstunden (z.B. 2027289.6).
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 9999999
+          step: 0.1
+          mode: box
+    device:
+      name: Gerät
+      description: Name oder ID des Geräts. Nur bei mehreren Geräten erforderlich.
+      example: Garten

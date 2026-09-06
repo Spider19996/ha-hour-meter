@@ -1,0 +1,11 @@
+{
+  "domain": "hour_meter",
+  "name": "Hour Meter",
+  "codeowners": ["@Spider19996"],
+  "config_flow": true,
+  "documentation": "https://github.com/spider19996/ha-hour-meter",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/spider19996/ha-hour-meter/issues",
+  "requirements": [],
+  "version": "1.2.0"
+}

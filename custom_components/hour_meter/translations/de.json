@@ -1,0 +1,128 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Betriebsstundenzähler einrichten",
+        "description": "Richten Sie die Betriebsstunden-Tracking Integration ein.\n\nSie können mehrere Geräte hinzufügen, indem Sie diese Integration mehrfach mit unterschiedlichen Namen hinzufügen.",
+        "data": {
+          "name": "Gerätename",
+          "binary_sensor_entity": "Geräte-Status Entität",
+          "invert": "Logik invertieren",
+          "latency_seconds": "Latenzzeit (Sekunden)",
+          "merge_time_seconds": "Merge-Zeit (Sekunden)",
+          "adjust_paths": "Pfade anpassen"
+        },
+        "data_description": {
+          "name": "Ein eindeutiger Name für diesen Gerät (z.B. 'Haus', 'Garten', 'Werkstatt').",
+          "binary_sensor_entity": "Optional: Eine Entität (binary_sensor, input_boolean oder switch), die den Geräte-Status überwacht.",
+          "invert": "Aktivieren, wenn die Entität den invertierten Status anzeigt (z.B. 0 = läuft, 1 = gestoppt).",
+          "latency_seconds": "Wartezeit bevor der Tracking stoppt nachdem das Gerät ausging. Verhindert Stoppen bei kurzen Unterbrechungen.",
+          "merge_time_seconds": "Zeit innerhalb derer aufeinanderfolgende Läufe zusammengeführt werden.",
+          "adjust_paths": "Aktivieren, um die Dateipfade nach dem Klick auf 'Weiter' in einem weiteren Schritt individuell anzupassen. Standardmäßig werden die Pfade automatisch aus dem Gerätenamen abgeleitet (z.B. 'Notstrom Diesel' → /config/hour_meter/notstrom_diesel-betriebsstunden.csv)."
+        }
+      },
+      "paths": {
+        "title": "Pfade anpassen",
+        "description": "Pfade für das Gerät '{name}'. Die vorgeschlagenen Pfade wurden aus dem Namen abgeleitet und können bei Bedarf angepasst werden. Der Ordner wird automatisch erstellt.",
+        "data": {
+          "csv_path": "CSV-Dateipfad",
+          "startzeit_path": "Startzeit-Dateipfad"
+        },
+        "data_description": {
+          "csv_path": "Pfad zur CSV-Datei, die die Betriebsstunden protokolliert.",
+          "startzeit_path": "Pfad zur Datei, die die Startzeit speichert."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen",
+      "invalid_auth": "Ungültige Authentifizierung",
+      "unknown": "Unbekannter Fehler",
+      "name_empty": "Name darf nicht leer sein",
+      "csv_path_empty": "CSV-Pfad darf nicht leer sein",
+      "startzeit_path_empty": "Startzeit-Dateipfad darf nicht leer sein",
+      "csv_path_already_used": "Diese CSV-Datei wird bereits von einem anderen Gerät verwendet",
+      "invalid_path": "Der Pfad muss absolut sein und sich innerhalb des HA-Config-Verzeichnisses befinden"
+    },
+    "abort": {
+      "already_configured": "Dieser Gerätename ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Betriebsstundenzähler Optionen",
+        "description": "Ändern Sie die Einstellungen für die Betriebsstundenzähler-Integration.",
+        "data": {
+          "name": "Gerätename",
+          "csv_path": "CSV-Dateipfad",
+          "startzeit_path": "Startzeit-Dateipfad",
+          "binary_sensor_entity": "Geräte-Status Entität",
+          "invert": "Logik invertieren",
+          "latency_seconds": "Latenzzeit (Sekunden)",
+          "merge_time_seconds": "Merge-Zeit (Sekunden)"
+        },
+        "data_description": {
+          "name": "Ein eindeutiger Name für diesen Gerät.",
+          "binary_sensor_entity": "Optional: Eine Entität, die den Geräte-Status überwacht.",
+          "invert": "Aktivieren, wenn die Entität den invertierten Status anzeigt.",
+          "latency_seconds": "Wartezeit bevor der Tracking stoppt nachdem das Gerät ausging.",
+          "merge_time_seconds": "Zeit innerhalb derer aufeinanderfolgende Läufe zusammengeführt werden."
+        }
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Start",
+      "description": "Startet die Betriebsstundenzählung und speichert den aktuellen Zeitstempel.",
+      "fields": {
+        "device": {
+          "name": "Gerät",
+          "description": "Name oder ID des Geräts. Nur bei mehreren Geräten erforderlich."
+        }
+      }
+    },
+    "stop": {
+      "name": "Stop",
+      "description": "Stoppt die Betriebsstundenzählung, berechnet die Laufzeit und speichert den Eintrag in der CSV-Datei.",
+      "fields": {
+        "device": {
+          "name": "Gerät",
+          "description": "Name oder ID des Geräts. Nur bei mehreren Geräten erforderlich."
+        }
+      }
+    },
+    "manual": {
+      "name": "Manuell",
+      "description": "Setzt die Betriebsstunden manuell auf einen bestimmten Wert.",
+      "fields": {
+        "value": {
+          "name": "Wert",
+          "description": "Der neue Wert für die Betriebsstunden (z.B. 2027289.6)."
+        },
+        "device": {
+          "name": "Gerät",
+          "description": "Name oder ID des Geräts. Nur bei mehreren Geräten erforderlich."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "betriebsstunden": {
+        "name": "Betriebsstunden"
+      }
+    },
+    "number": {
+      "stunden_eingabe": {
+        "name": "Betriebsstunden Eingabe"
+      }
+    },
+    "binary_sensor": {
+      "aktiv": {
+        "name": "Tracking Status"
+      }
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Setup Hour Meter",
+        "description": "Set up the device operating hours tracking integration.\n\nYou can add multiple devices by adding this integration multiple times with different names.",
+        "data": {
+          "name": "Device Name",
+          "binary_sensor_entity": "Device Status Entity",
+          "invert": "Invert Logic",
+          "latency_seconds": "Latency (seconds)",
+          "merge_time_seconds": "Merge Time (seconds)",
+          "adjust_paths": "Adjust paths"
+        },
+        "data_description": {
+          "name": "A unique name for this device (e.g., 'House', 'Garden', 'Workshop').",
+          "binary_sensor_entity": "Optional: An entity (binary_sensor, input_boolean, or switch) that monitors the device status.",
+          "invert": "Enable if the entity shows inverted status (e.g., 0 = running, 1 = stopped).",
+          "latency_seconds": "Delay before tracking stops after device turns off. Prevents stopping on brief interruptions.",
+          "merge_time_seconds": "Time within which consecutive runs are merged.",
+          "adjust_paths": "Enable to adjust the file paths individually in an additional step after clicking 'Next'. By default the paths are derived automatically from the device name (e.g. 'House' → /config/hour_meter/house-betriebsstunden.csv)."
+        }
+      },
+      "paths": {
+        "title": "Adjust paths",
+        "description": "Paths for device '{name}'. The suggested paths were derived from the name and can be adjusted if needed. The directory will be created automatically.",
+        "data": {
+          "csv_path": "CSV File Path",
+          "startzeit_path": "Start Time File Path"
+        },
+        "data_description": {
+          "csv_path": "Path to the CSV file that logs the operating hours.",
+          "startzeit_path": "Path to the file that stores the start time."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication",
+      "unknown": "Unexpected error",
+      "name_empty": "Name cannot be empty",
+      "csv_path_empty": "CSV path cannot be empty",
+      "startzeit_path_empty": "Start time file path cannot be empty",
+      "csv_path_already_used": "This CSV file is already used by another device",
+      "invalid_path": "The path must be absolute and located inside the HA config directory"
+    },
+    "abort": {
+      "already_configured": "This device name is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hour Meter Options",
+        "description": "Change settings for the Hour Meter integration.",
+        "data": {
+          "name": "Device Name",
+          "csv_path": "CSV File Path",
+          "startzeit_path": "Start Time File Path",
+          "binary_sensor_entity": "Device Status Entity",
+          "invert": "Invert Logic",
+          "latency_seconds": "Latency (seconds)",
+          "merge_time_seconds": "Merge Time (seconds)"
+        },
+        "data_description": {
+          "name": "A unique name for this device.",
+          "binary_sensor_entity": "Optional: An entity that monitors the device status.",
+          "invert": "Enable if the entity shows inverted status.",
+          "latency_seconds": "Delay before tracking stops after device turns off.",
+          "merge_time_seconds": "Time within which consecutive runs are merged."
+        }
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Start",
+      "description": "Start tracking device runtime",
+      "fields": {
+        "device": {
+          "name": "Device",
+          "description": "Name or id of the device. Only required when multiple devices are configured."
+        }
+      }
+    },
+    "stop": {
+      "name": "Stop",
+      "description": "Stop tracking device runtime and calculate hours",
+      "fields": {
+        "device": {
+          "name": "Device",
+          "description": "Name or id of the device. Only required when multiple devices are configured."
+        }
+      }
+    },
+    "manual": {
+      "name": "Manual",
+      "description": "Manually set the runtime hours",
+      "fields": {
+        "value": {
+          "name": "Value",
+          "description": "New total runtime hours value (e.g. 2027289.6)"
+        },
+        "device": {
+          "name": "Device",
+          "description": "Name or id of the device. Only required when multiple devices are configured."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "betriebsstunden": {
+        "name": "Operating Hours"
+      }
+    },
+    "number": {
+      "stunden_eingabe": {
+        "name": "Operating Hours Input"
+      }
+    },
+    "binary_sensor": {
+      "aktiv": {
+        "name": "Tracking Status"
+      }
+    }
+  }
+}

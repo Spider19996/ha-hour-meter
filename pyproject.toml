@@ -1,0 +1,14 @@
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+src = ["custom_components", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

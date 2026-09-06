@@ -83,6 +83,10 @@ Sets the runtime hours manually.
 | `value` | float | Yes | New total runtime hours value (e.g., 2027289.6) |
 | `device` | string | No | Device name or config entry id. Only needed when multiple devices are configured. |
 
+The value is the **new total, including the currently active run**. If tracking
+is active when the value is set, the live runtime counting restarts from that
+moment, so the runtime since the last start is not added on top of the value.
+
 ## Short Break Merging
 
 When a device is stopped and restarted within the **merge time** (`merge_time_seconds`, default 5 minutes), the two runs are merged into one continuous run:

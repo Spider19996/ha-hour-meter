@@ -154,6 +154,37 @@ async def test_manual_value(coordinator, tmp_path) -> None:
     assert float(manual[2]) == pytest.approx(2027289.6)
 
 
+async def test_manual_value_during_tracking_resets_marker(
+    coordinator, tmp_path
+) -> None:
+    """A manual value while tracking counts live runtime only from now on."""
+    csv_path = tmp_path / "historie.csv"
+
+    await coordinator.async_start_tracking()
+    _advance(hours=2)
+
+    # The manual value replaces the total including the active run
+    await coordinator.async_set_manual(100.0)
+    assert coordinator.is_tracking
+
+    # The start marker must have been reset to the current (fake) time
+    assert coordinator.startzeit_path.read_text().strip() == "2026-09-06 12:00:00"
+
+    # Live runtime continues from the manual intervention, not from 10:00
+    _advance(minutes=30)
+    await coordinator.async_request_refresh()
+    assert coordinator.data == pytest.approx(100.5)
+
+    new_total = await coordinator.async_stop_tracking()
+    assert new_total == pytest.approx(100.5)
+    assert not coordinator.is_tracking
+
+    stop = _last_line(csv_path).split(",")
+    assert stop[1] == "STOP"
+    assert float(stop[2]) == pytest.approx(100.5)
+    assert float(stop[3]) == pytest.approx(0.5)
+
+
 async def test_restart_device_still_running(coordinator, tmp_path) -> None:
     """Restart with the device still running logs a HA_RESTART entry."""
     csv_path = tmp_path / "historie.csv"

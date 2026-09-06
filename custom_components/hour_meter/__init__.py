@@ -2,7 +2,7 @@
 Custom integration for tracking device operating hours.
 
 For more details about this integration, please refer to
-https://github.com/spider19996/ha-generator-hours-tracker
+https://github.com/Spider19996/ha-hour-meter
 """
 
 from __future__ import annotations

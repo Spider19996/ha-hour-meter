@@ -441,12 +441,29 @@ class HourMeterCoordinator(DataUpdateCoordinator[float]):
         return new_total
 
     async def async_set_manual(self, value: float) -> None:
-        """Set runtime hours manually."""
-        now = dt_util.now().strftime(DATETIME_FORMAT)
+        """Set runtime hours manually.
+
+        The given value is the new total, including any runtime of the
+        currently active run. If tracking is active, the start marker is
+        therefore reset to now so the live runtime is counted from the
+        manual intervention onwards instead of being added on top of the
+        value (which would double count it).
+        """
+        now = dt_util.now()
+        now_str = now.strftime(DATETIME_FORMAT)
 
         # Write MANUELL entry to CSV
-        csv_line = f"{now},{ENTRY_TYPE_MANUELL},{value},0"
+        csv_line = f"{now_str},{ENTRY_TYPE_MANUELL},{value},0"
         await self._append_to_csv(csv_line)
+
+        # Reset the start marker while tracking so live runtime restarts
+        # from the manual intervention
+        if self.is_tracking:
+            async with self._lock:
+                try:
+                    await asyncio.to_thread(self.startzeit_path.write_text, now_str)
+                except OSError as err:
+                    LOGGER.error("Error writing start time file: %s", err)
 
         # Update sensor
         await self.async_request_refresh()

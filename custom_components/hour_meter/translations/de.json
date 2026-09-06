@@ -23,7 +23,7 @@
       },
       "paths": {
         "title": "Pfade anpassen",
-        "description": "Pfade für das Gerät '{name}'. Die vorgeschlagenen Pfade wurden aus dem Namen abgeleitet und können bei Bedarf angepasst werden. Der Ordner wird automatisch erstellt.",
+        "description": "Pfade für das Gerät {name}. Die vorgeschlagenen Pfade wurden aus dem Namen abgeleitet und können bei Bedarf angepasst werden. Der Ordner wird automatisch erstellt.",
         "data": {
           "csv_path": "CSV-Dateipfad",
           "startzeit_path": "Startzeit-Dateipfad"

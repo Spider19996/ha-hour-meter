@@ -23,7 +23,7 @@
       },
       "paths": {
         "title": "Adjust paths",
-        "description": "Paths for device '{name}'. The suggested paths were derived from the name and can be adjusted if needed. The directory will be created automatically.",
+        "description": "Paths for device {name}. The suggested paths were derived from the name and can be adjusted if needed. The directory will be created automatically.",
         "data": {
           "csv_path": "CSV File Path",
           "startzeit_path": "Start Time File Path"

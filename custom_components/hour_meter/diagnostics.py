@@ -1,7 +1,7 @@
 """Diagnostics support for the hour_meter integration.
 
 For more details about this integration, please refer to
-https://github.com/spider19996/ha-generator-hours-tracker
+https://github.com/Spider19996/ha-hour-meter
 """
 
 from __future__ import annotations
@@ -35,8 +35,6 @@ async def async_get_config_entry_diagnostics(
             "is_tracking": coordinator.is_tracking,
             "latency_seconds": coordinator.latency_seconds,
             "merge_time_seconds": coordinator.merge_time_seconds,
-            "csv_path": str(coordinator.csv_path),
-            "startzeit_path": str(coordinator.startzeit_path),
             "last_csv_entries": coordinator.csv_data[-5:],
         },
     }

@@ -47,8 +47,8 @@ To add a second (or third, ...) device, add the integration again with a **diffe
 |--------|----------|---------|-------------|
 | `name` | Yes | `Device` | Unique name of the device. The default file paths are derived from it |
 | `adjust_paths` | No | `false` | If enabled, an additional step appears to adjust the file paths manually |
-| `csv_path` | No | `/config/device/<name>-betriebsstunden.csv` | Path to the CSV log file (derived from the device name) |
-| `startzeit_path` | No | `/config/device/<name>_startzeit.txt` | Path to the start time file (derived from the device name) |
+| `csv_path` | No | `/config/hour_meter/<name>-betriebsstunden.csv` | Path to the CSV log file (derived from the device name) |
+| `startzeit_path` | No | `/config/hour_meter/<name>_startzeit.txt` | Path to the start time file (derived from the device name) |
 | `binary_sensor_entity` | No | - | Entity that monitors device status (binary_sensor, input_boolean, or switch) |
 | `invert` | No | `false` | Enable inverted logic (entity = off means device is running) |
 | `latency_seconds` | No | `10` | Delay before tracking stops after the device turns off. Prevents stopping on brief interruptions |
